@@ -11,7 +11,9 @@ const Name = () => {
         <Description>이름을 알려주세요.</Description>
         <NameInput type="text" />
         <NameCount>0/10</NameCount>
-        <DefaultBtn defaultColor={true} value="다음" />
+        <div className="btnDiv">
+          <DefaultBtn defaultColor={true} value="다음" />
+        </div>
       </InputBox>
     </Wrapper>
   );
@@ -35,6 +37,9 @@ const InputBox = styled.div`
     padding-top: 30px;
     width: 104px;
     height: 112px;
+  }
+  .btnDiv {
+    margin-top: 180px;
   }
 `;
 
