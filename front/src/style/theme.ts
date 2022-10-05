@@ -17,6 +17,4 @@ export const theme = {
 
     Error: "#F93D3D",
   },
-
-  fontSize: {},
 } as const;

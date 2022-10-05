@@ -5,6 +5,7 @@ export const infoState = atom({
   default: {
     name: "",
     age: 0,
-    disabled: true,
+    name_disabled: true,
+    age_disabled: true,
   },
 });

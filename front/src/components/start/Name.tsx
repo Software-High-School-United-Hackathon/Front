@@ -12,9 +12,9 @@ const Name = () => {
     const { value, name } = e.target;
     setState({ ...state, [name]: value });
     if (value === "") {
-      setState({ ...state, [name]: value, disabled: true });
+      setState({ ...state, [name]: value, name_disabled: true });
     } else {
-      setState({ ...state, [name]: value, disabled: false });
+      setState({ ...state, [name]: value, name_disabled: false });
     }
   };
 
@@ -33,7 +33,7 @@ const Name = () => {
         <NameCount>{state.name.length}/10</NameCount>
         <div className="btnDiv">
           <DefaultBtn
-            disabled={state.disabled}
+            disabled={state.name_disabled}
             defaultColor={true}
             value="다음"
           />

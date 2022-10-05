@@ -1,10 +1,9 @@
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import robot from "../../assets/imgs/robot.svg";
 import DefaultBtn from "../common/DefaultBtn";
-
-interface AgeBox {
-  age: string;
-}
+import { infoState } from "../../store/atom";
+import { useState } from "react";
 
 const AgeData = {
   ageList: [
@@ -20,29 +19,35 @@ const AgeData = {
   ],
 };
 
-const AgeBox = ({ age }: AgeBox) => {
-  return (
-    <BoxWrapper>
-      <p>{age}</p>
-    </BoxWrapper>
-  );
-};
-
 const AgeGroup = () => {
+  const [state, setState] = useRecoilState(infoState);
+  const [cur, setCur] = useState<number | null>(null);
+  const onClickAge = (num: number) => {
+    setState({ ...state, age_disabled: false });
+    setCur(num);
+  };
+
   return (
     <Wrapper>
       <InputBox>
         <img src={robot} alt="robot" />
         <Description>"OOO"님의 나이대를 알려주세요.</Description>
         <BoxDiv>
-          {AgeData.ageList.map((data) => (
-            <>
-              <AgeBox age={data.age} />
-            </>
+          {AgeData.ageList.map((data, index) => (
+            <BoxWrapper
+              state={!((index + 1) * 10 === cur)}
+              onClick={() => onClickAge((index + 1) * 10)}
+            >
+              {data.age}
+            </BoxWrapper>
           ))}
         </BoxDiv>
         <div className="btnDiv">
-          <DefaultBtn defaultColor={true} value="시작하기" />
+          <DefaultBtn
+            disabled={state.age_disabled}
+            defaultColor={true}
+            value="시작하기"
+          />
         </div>
       </InputBox>
     </Wrapper>
@@ -90,18 +95,19 @@ const BoxDiv = styled.div`
 `;
 
 // AgeBox style
-const BoxWrapper = styled.div`
+const BoxWrapper = styled.button<{ state: boolean }>`
+  cursor: pointer;
   width: 130px;
   height: 80px;
   background-color: ${({ theme }) => theme.color.Box_Gray};
   border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  > p {
-    font-weight: 500;
-    font-size: 16px;
-  }
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  color: ${({ state, theme }) =>
+    state ? theme.color.Black : theme.color.Dark_Primary};
+  border: ${({ state, theme }) =>
+    state ? theme.color.black : theme.color.Dark_Primary};
 `;
 
 export default AgeGroup;
