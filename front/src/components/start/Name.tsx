@@ -2,17 +2,41 @@ import React from "react";
 import styled from "styled-components";
 import robot from "../../assets/imgs/robot.svg";
 import DefaultBtn from "../common/DefaultBtn";
+import { useRecoilState } from "recoil";
+import { infoState } from "../../store/atom";
 
 const Name = () => {
+  const [state, setState] = useRecoilState(infoState);
+
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setState({ ...state, [name]: value });
+    if (value === "") {
+      setState({ ...state, [name]: value, disabled: true });
+    } else {
+      setState({ ...state, [name]: value, disabled: false });
+    }
+  };
+
   return (
     <Wrapper>
       <InputBox>
         <img src={robot} alt="robot" />
         <Description>이름을 알려주세요.</Description>
-        <NameInput type="text" />
-        <NameCount>0/10</NameCount>
+        <NameInput
+          name="name"
+          value={state.name}
+          type="text"
+          onChange={onChangeName}
+          maxLength={10}
+        />
+        <NameCount>{state.name.length}/10</NameCount>
         <div className="btnDiv">
-          <DefaultBtn defaultColor={true} value="다음" />
+          <DefaultBtn
+            disabled={state.disabled}
+            defaultColor={true}
+            value="다음"
+          />
         </div>
       </InputBox>
     </Wrapper>
@@ -56,6 +80,9 @@ const NameInput = styled.input`
   border-left: 0px;
   border-right: 0px;
   border-top: 0px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
 `;
 
 const NameCount = styled.p`
