@@ -1,10 +1,13 @@
 import React from "react";
 import Router from "./router";
+import { RecoilRoot } from "recoil";
 
 function App() {
   return (
     <div>
-      <Router />
+      <RecoilRoot>
+        <Router />
+      </RecoilRoot>
     </div>
   );
 }
