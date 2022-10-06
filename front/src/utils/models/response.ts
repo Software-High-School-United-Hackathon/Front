@@ -31,6 +31,9 @@ export interface IGetTest {
 }
 
 export interface IGetFailTest {
+  answer: number;
+  end_date: string;
+  explanation: string;
   finance_info: {
     dpr: number;
     endDate: string;
@@ -50,5 +53,7 @@ export interface IGetFailTest {
     image: string;
     title: string;
   };
+  right_answer: number;
+  score: number;
   stock: string;
 }

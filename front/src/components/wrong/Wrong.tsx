@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { makeStyles } from "@mui/styles";
 import DefaultBtn from "../common/DefaultBtn";
-import example from "../../assets/imgs/example.png";
-import example2 from "../../assets/imgs/example2.png";
 import { GetFailQuestion } from "../../utils/api";
 import { IGetFailTest } from "../../utils/models/response";
 
@@ -41,6 +39,9 @@ const useStyles = makeStyles({
 
 const Wrong = () => {
   const [data, setData] = useState<IGetFailTest>({
+    answer: 0,
+    end_date: "",
+    explanation: "",
     finance_info: {
       dpr: 0,
       endDate: "",
@@ -60,6 +61,8 @@ const Wrong = () => {
       image: "",
       title: "",
     },
+    right_answer: 0,
+    score: 0,
     stock: "",
   });
 
@@ -87,30 +90,63 @@ const Wrong = () => {
         <ProblemTitle>
           <img src={wrong} alt="robot" />
           <div className="tipDiv">
-            <p id="date">기준날짜: 2022년 10월 6일</p>
-            <p id="tip">해설: 블라블라라라라라</p>
+            <p id="date">기준날짜: {data.finance_info.endDate}</p>
+            <p id="tip">해설: {data.explanation}</p>
           </div>
         </ProblemTitle>
         <ProblemBody>
           <Problem1>
             <div className="chart">
-              <img src={example} alt="chart" />
+              <img src={data.image} alt="chart" />
             </div>
           </Problem1>
           <Problem2>
             <div className="news">
-              <img src={example2} alt="img" />
+              <img src={data.news.image} alt="img" />
               <NewsTextDiv>
-                <p id="title">
-                  엄청난 충주사과 풍년으로 사과값 떡락위기 전국사과 농가
-                  후들후들...
-                </p>
-                <p id="content"></p>
+                <p id="title">{data.news.title}</p>
+                <p id="content">{data.news.article}</p>
               </NewsTextDiv>
             </div>
             <TableDiv>
-              <div className="table"></div>
-              <div className="table"></div>
+              <div className="table">
+                {" "}
+                <TableTextDiv>
+                  <p id="name">고가</p>
+                  <p id="content">{`${data.finance_info.hipr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">저가</p>
+                  <p id="content">{`${data.finance_info.lopr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">종가</p>
+                  <p id="content">{`${data.finance_info.dpr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">시장구분</p>
+                  <p id="content">{`${data.stock}`}</p>
+                </TableTextDiv>
+              </div>
+              <div className="table">
+                {" "}
+                <TableTextDiv>
+                  <p id="name">시가총액</p>
+                  <p id="content">{`${data.finance_info.mrktTotAmt}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">거래대금</p>
+                  <p id="content">{`${data.finance_info.trPrc}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">거래량</p>
+                  <p id="content">{`${data.finance_info.trqu}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">전일대비등락</p>
+                  <p id="content">{`${data.finance_info.vs}`}</p>
+                </TableTextDiv>
+              </div>
             </TableDiv>
           </Problem2>
         </ProblemBody>
@@ -120,7 +156,7 @@ const Wrong = () => {
             <Slider
               className={test.sliders}
               aria-label="Temperature"
-              defaultValue={10}
+              defaultValue={data.right_answer}
               valueLabelFormat={valueLabelFormat}
               getAriaValueText={valuetext}
               step={null}
@@ -274,6 +310,20 @@ const BtnDiv = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+const TableTextDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  #name {
+    font-weight: 500;
+    font-size: 15px;
+  }
+  #content {
+    font-weight: 400;
+    font-size: 12px;
+  }
 `;
 
 export default Wrong;
