@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import robot from "../../assets/imgs/robot.svg";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import { makeStyles } from "@mui/styles";
+import DefaultBtn from "../common/DefaultBtn";
+import example from "../../assets/imgs/example.png";
+import example2 from "../../assets/imgs/example2.png";
 
 const marks = [
   {
@@ -27,7 +31,15 @@ const marks = [
   },
 ];
 
+const useStyles = makeStyles({
+  sliders: {},
+});
+
 const Test = () => {
+  const [isMore, setIsMore] = useState<boolean>(true);
+
+  const test = useStyles();
+
   function valuetext(value: number) {
     return `${value}`;
   }
@@ -46,10 +58,21 @@ const Test = () => {
         </ProblemTitle>
         <ProblemBody>
           <Problem1>
-            <div className="chart"></div>
+            <div className="chart">
+              <img src={example} alt="chart" />
+            </div>
           </Problem1>
           <Problem2>
-            <div className="news"></div>
+            <div className="news">
+              <img src={example2} alt="img" />
+              <NewsTextDiv>
+                <p id="title">
+                  엄청난 충주사과 풍년으로 사과값 떡락위기 전국사과 농가
+                  후들후들...
+                </p>
+                <p id="content"></p>
+              </NewsTextDiv>
+            </div>
             <TableDiv>
               <div className="table"></div>
               <div className="table"></div>
@@ -57,8 +80,10 @@ const Test = () => {
           </Problem2>
         </ProblemBody>
         <SliderDiv>
+          <p id="sell">매도한다</p>
           <Box sx={{ width: 340 }}>
             <Slider
+              className={test.sliders}
               aria-label="Temperature"
               defaultValue={10}
               valueLabelFormat={valueLabelFormat}
@@ -70,7 +95,11 @@ const Test = () => {
               max={20}
             />
           </Box>
+          <p id="buy">매수한다</p>
         </SliderDiv>
+        <BtnDiv>
+          <DefaultBtn defaultColor={true} value="다음" />
+        </BtnDiv>
       </Problem>
     </Wrapper>
   );
@@ -85,7 +114,7 @@ const Wrapper = styled.div`
 
 const Problem = styled.div`
   width: 1150px;
-  height: 580px;
+  height: 610px;
   background-color: ${({ theme }) => theme.color.White};
   box-shadow: 0px 20px 16px rgba(126, 126, 126, 0.08);
   border-radius: 32px;
@@ -99,6 +128,7 @@ const ProblemTitle = styled.div`
     width: 104px;
     height: 112px;
     margin-right: 16px;
+    margin-left: 30px;
   }
   > p {
     width: 430px;
@@ -109,6 +139,8 @@ const ProblemTitle = styled.div`
 
 const ProblemBody = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
 `;
 
@@ -118,15 +150,43 @@ const Problem1 = styled.div`
     height: 400px;
     background-color: ${({ theme }) => theme.color.BG};
     border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > img {
+      width: 500px;
+      height: 370px;
+    }
   }
 `;
 
 const Problem2 = styled.div`
   .news {
-    width: 540px;
-    height: 200px;
+    width: 520px;
+    height: 170px;
+    padding: 16px;
     background-color: ${({ theme }) => theme.color.BG};
+    gap: 8px;
     border-radius: 16px;
+    display: flex;
+    align-items: center;
+    > img {
+      width: 180px;
+      height: 180px;
+    }
+  }
+`;
+
+const NewsTextDiv = styled.div`
+  #title {
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  #content {
+    width: 325px;
+    height: 130px;
+    white-space: pre-wrap;
   }
 `;
 
@@ -135,7 +195,7 @@ const TableDiv = styled.div`
   gap: 8px;
   margin-top: 8px;
   .table {
-    width: 265px;
+    width: 272px;
     height: 192px;
     background-color: ${({ theme }) => theme.color.BG};
     border-radius: 16px;
@@ -145,7 +205,29 @@ const TableDiv = styled.div`
 const SliderDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  #sell {
+    position: fixed;
+    color: ${({ theme }) => theme.color.Primary};
+    font-weight: 400;
+    font-size: 18px;
+    left: 515px;
+  }
+  #buy {
+    position: fixed;
+    color: ${({ theme }) => theme.color.Error};
+    font-weight: 400;
+    font-size: 18px;
+    right: 480px;
+  }
+`;
+
+const BtnDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 export default Test;
