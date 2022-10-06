@@ -1,4 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import ResultPage from "./pages/result/ResultPage";
 import AgeGroupPage from "./pages/start/AgeGroupPage";
 import NamePage from "./pages/start/NamePage";
 import TestPage from "./pages/test/TestPage";
@@ -12,6 +13,7 @@ const Router = () => {
         <Route path="/age" element={<AgeGroupPage />} />
         <Route path="/test/:examId" element={<TestPage />} />
         <Route path="/wrong" element={<WrongPage />} />
+        <Route path="/result" element={<ResultPage />} />
       </Routes>
     </BrowserRouter>
   );
