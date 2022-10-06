@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import robot from "../../assets/imgs/robot.svg";
+import wrong from "../../assets/imgs/wrong.svg";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { makeStyles } from "@mui/styles";
@@ -31,8 +31,16 @@ const marks = [
   },
 ];
 
-const Test = () => {
+const useStyles = makeStyles({
+  sliders: {
+    color: "#B4C1F6",
+  },
+});
+
+const Wrong = () => {
   const [isMore, setIsMore] = useState<boolean>(true);
+
+  const test = useStyles();
 
   function valuetext(value: number) {
     return `${value}`;
@@ -47,10 +55,10 @@ const Test = () => {
     <Wrapper>
       <Problem>
         <ProblemTitle>
-          <img src={robot} alt="robot" />
+          <img src={wrong} alt="robot" />
           <div className="tipDiv">
             <p id="date">기준날짜: 2022년 10월 6일</p>
-            <p id="tip">TIP. 사과는 맛있어요</p>
+            <p id="tip">해설: 블라블라라라라라</p>
           </div>
         </ProblemTitle>
         <ProblemBody>
@@ -80,6 +88,7 @@ const Test = () => {
           <p id="sell">매도한다</p>
           <Box sx={{ width: 340 }}>
             <Slider
+              className={test.sliders}
               aria-label="Temperature"
               defaultValue={10}
               valueLabelFormat={valueLabelFormat}
@@ -237,4 +246,4 @@ const BtnDiv = styled.div`
   margin-top: 20px;
 `;
 
-export default Test;
+export default Wrong;
