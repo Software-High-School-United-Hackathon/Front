@@ -6,6 +6,8 @@ import Slider from "@mui/material/Slider";
 import { makeStyles } from "@mui/styles";
 import { GetFailQuestion } from "../../utils/api";
 import { IGetFailTest } from "../../utils/models/response";
+import home from "../../assets/imgs/home.svg";
+import { Link } from "react-router-dom";
 
 const marks = [
   {
@@ -143,6 +145,11 @@ const Wrong = () => {
           </SliderDiv>
         </Problem>
       ))}
+      <Link to="/">
+        <HomeBtn>
+          <img src={home} alt="home" />
+        </HomeBtn>
+      </Link>
     </Wrapper>
   );
 };
@@ -290,6 +297,17 @@ const TableTextDiv = styled.div`
     font-weight: 400;
     font-size: 12px;
   }
+`;
+
+const HomeBtn = styled.div`
+  width: 200px;
+  height: 60px;
+  margin-bottom: 50px;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.color.Primary};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Wrong;
