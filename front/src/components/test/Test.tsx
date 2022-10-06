@@ -54,7 +54,10 @@ const Test = () => {
       <Problem>
         <ProblemTitle>
           <img src={robot} alt="robot" />
-          <p>올해 전국적으로 어마어마한 사과풍년이 왔습니다 그냥 그렇다구요.</p>
+          <div className="tipDiv">
+            <p id="date">기준날짜: 2022년 10월 6일</p>
+            <p id="tip">TIP. 사과는 맛있어요</p>
+          </div>
         </ProblemTitle>
         <ProblemBody>
           <Problem1>
@@ -124,6 +127,17 @@ const Problem = styled.div`
 const ProblemTitle = styled.div`
   display: flex;
   align-items: center;
+  .tipDiv {
+    #date {
+      color: ${({ theme }) => theme.color.Very_Dark_Gray};
+      font-size: 16px;
+      font-weight: 400;
+    }
+    #tip {
+      font-weight: 600;
+      font-size: 22px;
+    }
+  }
   > img {
     width: 104px;
     height: 112px;
@@ -180,7 +194,7 @@ const Problem2 = styled.div`
 const NewsTextDiv = styled.div`
   #title {
     font-weight: 600;
-    font-size: 22px;
+    font-size: 18px;
   }
 
   #content {

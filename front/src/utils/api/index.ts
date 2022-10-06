@@ -26,9 +26,9 @@ export const GetQuestion = async (): Promise<IGetTest> => {
   }
 };
 
-export const PostAnswer = async (body: IPostAnswer) => {
+export const PostAnswer = async (testId: number, body: IPostAnswer) => {
   try {
-    return await instance.post(`/question`, body);
+    return await instance.post(`/question/${testId}`, body);
   } catch (error) {
     throw error;
   }
