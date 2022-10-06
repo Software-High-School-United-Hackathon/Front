@@ -35,9 +35,9 @@ const AgeGroup = () => {
     console.log(cur, state.name);
     PostTest({ age: state.age, name: state.name })
       .then((res) => {
-        localStorage.setItem("access_token", res.data);
-        console.log(localStorage);
-        navigate("/test");
+        localStorage.setItem("examId", res.data);
+        const token = localStorage.getItem("examId") || "";
+        navigate(`/test/${token}`);
       })
       .catch();
   };

@@ -18,9 +18,9 @@ export const GetResult = async (): Promise<IGetResult> => {
   }
 };
 
-export const GetQuestion = async (): Promise<IGetTest> => {
+export const GetQuestion = async (examId: string): Promise<IGetTest> => {
   try {
-    return await instance.get(`/question`);
+    return await instance.get(`/question/${examId}`);
   } catch (error) {
     throw error;
   }

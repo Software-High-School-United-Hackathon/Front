@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import robot from "../../assets/imgs/robot.svg";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import { makeStyles } from "@mui/styles";
 import DefaultBtn from "../common/DefaultBtn";
 import example from "../../assets/imgs/example.png";
 import example2 from "../../assets/imgs/example2.png";
+import { GetQuestion } from "../../utils/api";
 
 const marks = [
   {
@@ -42,6 +42,13 @@ const Test = () => {
     const target = marks.find((mark) => mark.value === value);
     return target?.tooltip;
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("examId") || "";
+    GetQuestion(token).then((res) => {
+      console.log(res, "1");
+    });
+  }, []);
 
   return (
     <Wrapper>
