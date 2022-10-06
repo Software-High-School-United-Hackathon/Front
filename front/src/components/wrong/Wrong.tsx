@@ -4,7 +4,6 @@ import wrong from "../../assets/imgs/wrong.svg";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { makeStyles } from "@mui/styles";
-import DefaultBtn from "../common/DefaultBtn";
 import { GetFailQuestion } from "../../utils/api";
 import { IGetFailTest } from "../../utils/models/response";
 
@@ -154,6 +153,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Problem = styled.div`
@@ -276,12 +276,6 @@ const SliderDiv = styled.div`
     font-size: 18px;
     margin-left: 30px;
   }
-`;
-
-const BtnDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
 `;
 
 const TableTextDiv = styled.div`
