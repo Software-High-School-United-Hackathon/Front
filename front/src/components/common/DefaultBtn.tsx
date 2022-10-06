@@ -24,7 +24,6 @@ const DefaultBtnBox = styled.input<{ width?: number; defaultColor: boolean }>`
   border-radius: 60px;
   color: ${({ defaultColor, theme }) =>
     defaultColor ? theme.color.White : theme.color.Dark_Primary};
-  transition: all 0.3s;
   font-weight: 500;
   font-size: 16px;
   :disabled {

@@ -4,6 +4,7 @@ import robot from "../../assets/imgs/robot.svg";
 import DefaultBtn from "../common/DefaultBtn";
 import { useRecoilState } from "recoil";
 import { infoState } from "../../store/atom";
+import { Link } from "react-router-dom";
 
 const Name = () => {
   const [state, setState] = useRecoilState(infoState);
@@ -32,11 +33,13 @@ const Name = () => {
         />
         <NameCount>{state.name.length}/10</NameCount>
         <div className="btnDiv">
-          <DefaultBtn
-            disabled={state.name_disabled}
-            defaultColor={true}
-            value="다음"
-          />
+          <Link to="/age">
+            <DefaultBtn
+              disabled={state.name_disabled}
+              defaultColor={true}
+              value="다음"
+            />
+          </Link>
         </div>
       </InputBox>
     </Wrapper>

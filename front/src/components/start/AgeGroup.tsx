@@ -4,6 +4,7 @@ import robot from "../../assets/imgs/robot.svg";
 import DefaultBtn from "../common/DefaultBtn";
 import { infoState } from "../../store/atom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const AgeData = {
   ageList: [
@@ -43,11 +44,13 @@ const AgeGroup = () => {
           ))}
         </BoxDiv>
         <div className="btnDiv">
-          <DefaultBtn
-            disabled={state.age_disabled}
-            defaultColor={true}
-            value="시작하기"
-          />
+          <Link to="/test">
+            <DefaultBtn
+              disabled={state.age_disabled}
+              defaultColor={true}
+              value="시작하기"
+            />
+          </Link>
         </div>
       </InputBox>
     </Wrapper>
@@ -75,7 +78,7 @@ const InputBox = styled.div`
     height: 112px;
   }
   .btnDiv {
-    margin-top: 43px;
+    margin-top: 132px;
   }
 `;
 
@@ -104,6 +107,7 @@ const BoxWrapper = styled.button<{ state: boolean }>`
   font-weight: 500;
   font-size: 16px;
   text-align: center;
+  transition: all 0.3s;
   color: ${({ state, theme }) =>
     state ? theme.color.Black : theme.color.Dark_Primary};
   border: ${({ state, theme }) =>
