@@ -1,8 +1,42 @@
 import React from "react";
 import styled from "styled-components";
 import robot from "../../assets/imgs/robot.svg";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
+
+const marks = [
+  {
+    value: 0,
+    tooltip: -10,
+  },
+  {
+    value: 5,
+    tooltip: -5,
+  },
+  {
+    value: 10,
+    tooltip: 0,
+  },
+  {
+    value: 15,
+    tooltip: 5,
+  },
+  {
+    value: 20,
+    tooltip: 10,
+  },
+];
 
 const Test = () => {
+  function valuetext(value: number) {
+    return `${value}`;
+  }
+
+  function valueLabelFormat(value: number) {
+    const target = marks.find((mark) => mark.value === value);
+    return target?.tooltip;
+  }
+
   return (
     <Wrapper>
       <Problem>
@@ -22,6 +56,21 @@ const Test = () => {
             </TableDiv>
           </Problem2>
         </ProblemBody>
+        <SliderDiv>
+          <Box sx={{ width: 340 }}>
+            <Slider
+              aria-label="Temperature"
+              defaultValue={10}
+              valueLabelFormat={valueLabelFormat}
+              getAriaValueText={valuetext}
+              step={null}
+              valueLabelDisplay="auto"
+              marks={marks}
+              min={0}
+              max={20}
+            />
+          </Box>
+        </SliderDiv>
       </Problem>
     </Wrapper>
   );
@@ -91,6 +140,12 @@ const TableDiv = styled.div`
     background-color: ${({ theme }) => theme.color.BG};
     border-radius: 16px;
   }
+`;
+
+const SliderDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 `;
 
 export default Test;
