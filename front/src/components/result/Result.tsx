@@ -4,6 +4,11 @@ import share from "../../assets/imgs/share.svg";
 import { GetResult } from "../../utils/api";
 import { IGetResult } from "../../utils/models/response";
 import DefaultBtn from "../common/DefaultBtn";
+import money from "../../assets/imgs/money.svg";
+import safe from "../../assets/imgs/safe.svg";
+import shield from "../../assets/imgs/shield.svg";
+import sword from "../../assets/imgs/sword.svg";
+import balance from "../../assets/imgs/balance.svg";
 
 const Result = () => {
   const [data, setData] = useState<IGetResult>({
@@ -26,10 +31,12 @@ const Result = () => {
 
   console.log(ClearTest, data);
 
+  const imgArr = ["img", shield, safe, balance, money, sword];
+
   return (
     <Wrapper>
       <ResultBox>
-        <div className="img" />
+        <img alt="img" src={imgArr[data.tendency_type]} />
         <ScoreDiv>
           <p id="name">최종점수</p>
           <p id="score">{`${data.score}`}</p>
@@ -76,10 +83,9 @@ const ResultBox = styled.div`
   padding: 30px 50px 44px 50px;
   border-radius: 32px;
   box-shadow: 0px 20px 16px rgba(126, 126, 126, 0.08);
-  .img {
+  > img {
     width: 180px;
     height: 180px;
-    background-color: black;
     margin-bottom: 40px;
   }
 `;
