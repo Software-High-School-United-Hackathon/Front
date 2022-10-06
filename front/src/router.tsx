@@ -12,7 +12,7 @@ const Router = () => {
         <Route path="/name" element={<NamePage />} />
         <Route path="/age" element={<AgeGroupPage />} />
         <Route path="/test/:examId" element={<TestPage />} />
-        <Route path="/wrong" element={<WrongPage />} />
+        <Route path="/wrong/:examId" element={<WrongPage />} />
         <Route path="/result" element={<ResultPage />} />
       </Routes>
     </BrowserRouter>

@@ -9,6 +9,7 @@ import safe from "../../assets/imgs/safe.svg";
 import shield from "../../assets/imgs/shield.svg";
 import sword from "../../assets/imgs/sword.svg";
 import balance from "../../assets/imgs/balance.svg";
+import { useNavigate } from "react-router-dom";
 
 const Result = () => {
   const [data, setData] = useState<IGetResult>({
@@ -20,6 +21,7 @@ const Result = () => {
     wrong_sum: 0,
   });
 
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("examId") || "";
     GetResult(token).then((res) => {
@@ -32,6 +34,11 @@ const Result = () => {
   console.log(ClearTest, data);
 
   const imgArr = ["img", shield, safe, balance, money, sword];
+
+  const onSubmit = () => {
+    const token = localStorage.getItem("examId") || "";
+    navigate(`/wrong/${token}`);
+  };
 
   return (
     <Wrapper>
@@ -56,7 +63,7 @@ const Result = () => {
           <p id="content">{`${data.tendency_explanation}`}</p>
         </FaceDiv>
         <BtnDiv>
-          <DefaultBtn defaultColor={true} value="틀린문제" />
+          <DefaultBtn onClick={onSubmit} defaultColor={true} value="틀린문제" />
           <div className="grayBtn">
             <img src={share} alt="share" />
           </div>

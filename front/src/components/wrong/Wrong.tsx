@@ -38,40 +38,14 @@ const useStyles = makeStyles({
 });
 
 const Wrong = () => {
-  const [data, setData] = useState<IGetFailTest>({
-    answer: 0,
-    end_date: "",
-    explanation: "",
-    finance_info: {
-      dpr: 0,
-      endDate: "",
-      hipr: 0,
-      id: 0,
-      lopr: 0,
-      mrktTotAmt: 0,
-      trPrc: 0,
-      trqu: 0,
-      vs: 0,
-    },
-    id: 0,
-    image: "",
-    news: {
-      article: "",
-      id: 0,
-      image: "",
-      title: "",
-    },
-    right_answer: 0,
-    score: 0,
-    stock: "",
-  });
+  const [questions, setQuestions] = useState<IGetFailTest[]>([]);
 
   const test = useStyles();
 
   useEffect(() => {
     const token = localStorage.getItem("examId") || "";
     GetFailQuestion(token).then((res) => {
-      setData(res);
+      setQuestions(res);
     });
   }, []);
 
@@ -86,92 +60,90 @@ const Wrong = () => {
 
   return (
     <Wrapper>
-      <Problem>
-        <ProblemTitle>
-          <img src={wrong} alt="robot" />
-          <div className="tipDiv">
-            <p id="date">기준날짜: {data.finance_info.endDate}</p>
-            <p id="tip">해설: {data.explanation}</p>
-          </div>
-        </ProblemTitle>
-        <ProblemBody>
-          <Problem1>
-            <div className="chart">
-              <img src={data.image} alt="chart" />
+      {questions.map((data) => (
+        <Problem>
+          <ProblemTitle>
+            <img src={wrong} alt="robot" />
+            <div className="tipDiv">
+              <p id="date">기준날짜: {data.end_date}</p>
+              <p id="tip">해설: {data.explanation}</p>
             </div>
-          </Problem1>
-          <Problem2>
-            <div className="news">
-              <img src={data.news.image} alt="img" />
-              <NewsTextDiv>
-                <p id="title">{data.news.title}</p>
-                <p id="content">{data.news.article}</p>
-              </NewsTextDiv>
-            </div>
-            <TableDiv>
-              <div className="table">
-                {" "}
-                <TableTextDiv>
-                  <p id="name">고가</p>
-                  <p id="content">{`${data.finance_info.hipr}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">저가</p>
-                  <p id="content">{`${data.finance_info.lopr}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">종가</p>
-                  <p id="content">{`${data.finance_info.dpr}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">시장구분</p>
-                  <p id="content">{`${data.stock}`}</p>
-                </TableTextDiv>
+          </ProblemTitle>
+          <ProblemBody>
+            <Problem1>
+              <div className="chart">
+                <img src={data.image} alt="chart" />
               </div>
-              <div className="table">
-                {" "}
-                <TableTextDiv>
-                  <p id="name">시가총액</p>
-                  <p id="content">{`${data.finance_info.mrktTotAmt}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">거래대금</p>
-                  <p id="content">{`${data.finance_info.trPrc}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">거래량</p>
-                  <p id="content">{`${data.finance_info.trqu}`}</p>
-                </TableTextDiv>
-                <TableTextDiv>
-                  <p id="name">전일대비등락</p>
-                  <p id="content">{`${data.finance_info.vs}`}</p>
-                </TableTextDiv>
+            </Problem1>
+            <Problem2>
+              <div className="news">
+                <img src={data.news.image} alt="img" />
+                <NewsTextDiv>
+                  <p id="title">{data.news.title}</p>
+                  <p id="content">{data.news.article}</p>
+                </NewsTextDiv>
               </div>
-            </TableDiv>
-          </Problem2>
-        </ProblemBody>
-        <SliderDiv>
-          <p id="sell">매도한다</p>
-          <Box sx={{ width: 340 }}>
-            <Slider
-              className={test.sliders}
-              aria-label="Temperature"
-              defaultValue={data.right_answer}
-              valueLabelFormat={valueLabelFormat}
-              getAriaValueText={valuetext}
-              step={null}
-              valueLabelDisplay="auto"
-              marks={marks}
-              min={0}
-              max={20}
-            />
-          </Box>
-          <p id="buy">매수한다</p>
-        </SliderDiv>
-        <BtnDiv>
-          <DefaultBtn defaultColor={true} value="다음" />
-        </BtnDiv>
-      </Problem>
+              <TableDiv>
+                <div className="table">
+                  <TableTextDiv>
+                    <p id="name">고가</p>
+                    <p id="content">{data.finance_info.hipr}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">저가</p>
+                    <p id="content">{data.finance_info.lopr}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">종가</p>
+                    <p id="content">{data.finance_info.dpr}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">시장구분</p>
+                    <p id="content">{data.stock}</p>
+                  </TableTextDiv>
+                </div>
+                <div className="table">
+                  {" "}
+                  <TableTextDiv>
+                    <p id="name">시가총액</p>
+                    <p id="content">{data.finance_info.mrktTotAmt}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">거래대금</p>
+                    <p id="content">{data.finance_info.trPrc}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">거래량</p>
+                    <p id="content">{data.finance_info.trqu}</p>
+                  </TableTextDiv>
+                  <TableTextDiv>
+                    <p id="name">전일대비등락</p>
+                    <p id="content">{data.finance_info.vs}</p>
+                  </TableTextDiv>
+                </div>
+              </TableDiv>
+            </Problem2>
+          </ProblemBody>
+          <SliderDiv>
+            <p id="sell">매도한다</p>
+            <Box sx={{ width: 340 }}>
+              <Slider
+                className={test.sliders}
+                aria-label="Temperature"
+                defaultValue={data.right_answer}
+                valueLabelFormat={valueLabelFormat}
+                getAriaValueText={valuetext}
+                step={null}
+                valueLabelDisplay="auto"
+                marks={marks}
+                min={0}
+                max={20}
+              />
+            </Box>
+            <p id="buy">매수한다</p>
+          </SliderDiv>
+        </Problem>
+      ))}
     </Wrapper>
   );
 };
@@ -179,6 +151,7 @@ const Wrong = () => {
 const Wrapper = styled.div`
   margin-top: 90px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -186,6 +159,7 @@ const Wrapper = styled.div`
 const Problem = styled.div`
   width: 1150px;
   height: 610px;
+  margin-bottom: 60px;
   background-color: ${({ theme }) => theme.color.White};
   box-shadow: 0px 20px 16px rgba(126, 126, 126, 0.08);
   border-radius: 32px;
@@ -245,7 +219,7 @@ const Problem1 = styled.div`
 const Problem2 = styled.div`
   .news {
     width: 520px;
-    height: 170px;
+    height: 240px;
     padding: 16px;
     background-color: ${({ theme }) => theme.color.BG};
     gap: 8px;
@@ -277,8 +251,9 @@ const TableDiv = styled.div`
   gap: 8px;
   margin-top: 8px;
   .table {
-    width: 272px;
-    height: 192px;
+    padding: 10px;
+    width: 252px;
+    height: 100px;
     background-color: ${({ theme }) => theme.color.BG};
     border-radius: 16px;
   }
@@ -289,20 +264,17 @@ const SliderDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  position: relative;
   #sell {
-    position: fixed;
     color: ${({ theme }) => theme.color.Primary};
     font-weight: 400;
     font-size: 18px;
-    left: 515px;
+    margin-right: 40px;
   }
   #buy {
-    position: fixed;
     color: ${({ theme }) => theme.color.Error};
     font-weight: 400;
     font-size: 18px;
-    right: 480px;
+    margin-left: 30px;
   }
 `;
 

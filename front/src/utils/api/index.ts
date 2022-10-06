@@ -36,9 +36,9 @@ export const PostAnswer = async (body: IPostAnswer) => {
 
 export const GetFailQuestion = async (
   examId: string
-): Promise<IGetFailTest> => {
+): Promise<IGetFailTest[]> => {
   try {
-    return await instance.get(`/question/wrong?id=${examId}`);
+    return (await instance.get(`/question/wrong?id=${examId}`)).data;
   } catch (error) {
     throw error;
   }

@@ -9,6 +9,7 @@ import { IGetTest } from "../../utils/models/response";
 import { useNavigate } from "react-router-dom";
 
 const Test = () => {
+  const [select, setSelect] = useState(10);
   const [data, setData] = useState<IGetTest>({
     finance_info: {
       dpr: 0,
@@ -68,12 +69,12 @@ const Test = () => {
   }
 
   const NextPage = () => {
-    const target = marks.find((mark) => mark.value === mark.value);
+    const target = marks.find((mark) => mark.value === select);
     if (target == null) return;
     setNextTest(nextTest + 1);
+    console.log(nextTest, target.tooltip);
     PostAnswer({ id: data.id, answer: target.tooltip });
-    console.log(nextTest);
-    if (nextTest == 9) {
+    if (nextTest === 9) {
       Navigate("/result");
     }
   };
@@ -91,8 +92,8 @@ const Test = () => {
         <ProblemTitle>
           <img src={robot} alt="robot" />
           <div className="tipDiv">
-            <p id="date">기준날짜: {`${data.finance_info.endDate}`}</p>
-            <p id="tip">TIP. {`${data.news.title}`}</p>
+            <p id="date">기준날짜: {data.finance_info.endDate}</p>
+            <p id="tip">TIP. {data.news.title}</p>
           </div>
         </ProblemTitle>
         <ProblemBody>
@@ -105,45 +106,45 @@ const Test = () => {
             <div className="news">
               <img src={data.news.image} alt="img" />
               <NewsTextDiv>
-                <p id="title">{`${data.news.title}`}</p>
-                <p id="content">{`${data.news.article}`}</p>
+                <p id="title">{data.news.title}</p>
+                <p id="content">{data.news.article}</p>
               </NewsTextDiv>
             </div>
             <TableDiv>
               <div className="table">
                 <TableTextDiv>
                   <p id="name">고가</p>
-                  <p id="content">{`${data.finance_info.hipr}`}</p>
+                  <p id="content">{data.finance_info.hipr}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">저가</p>
-                  <p id="content">{`${data.finance_info.lopr}`}</p>
+                  <p id="content">{data.finance_info.lopr}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">종가</p>
-                  <p id="content">{`${data.finance_info.dpr}`}</p>
+                  <p id="content">{data.finance_info.dpr}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">시장구분</p>
-                  <p id="content">{`${data.stock}`}</p>
+                  <p id="content">{data.stock}</p>
                 </TableTextDiv>
               </div>
               <div className="table">
                 <TableTextDiv>
                   <p id="name">시가총액</p>
-                  <p id="content">{`${data.finance_info.mrktTotAmt}`}</p>
+                  <p id="content">{data.finance_info.mrktTotAmt}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">거래대금</p>
-                  <p id="content">{`${data.finance_info.trPrc}`}</p>
+                  <p id="content">{data.finance_info.trPrc}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">거래량</p>
-                  <p id="content">{`${data.finance_info.trqu}`}</p>
+                  <p id="content">{data.finance_info.trqu}</p>
                 </TableTextDiv>
                 <TableTextDiv>
                   <p id="name">전일대비등락</p>
-                  <p id="content">{`${data.finance_info.vs}`}</p>
+                  <p id="content">{data.finance_info.vs}</p>
                 </TableTextDiv>
               </div>
             </TableDiv>
@@ -154,10 +155,13 @@ const Test = () => {
           <Box sx={{ width: 340 }}>
             <Slider
               aria-label="Temperature"
-              defaultValue={10}
               valueLabelFormat={valueLabelFormat}
               getAriaValueText={valuetext}
               step={null}
+              value={select}
+              onChange={(e, v) =>
+                typeof v === "number" ? setSelect(v) : setSelect(v[0])
+              }
               valueLabelDisplay="auto"
               marks={marks}
               min={0}
