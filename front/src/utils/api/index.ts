@@ -10,9 +10,9 @@ export const PostTest = async (body: ICreateTest) => {
   }
 };
 
-export const GetResult = async (): Promise<IGetResult> => {
+export const GetResult = async (examId: string): Promise<IGetResult> => {
   try {
-    return await instance.get(`/exam/result`);
+    return (await instance.get(`/exam/result?id=${examId}`)).data;
   } catch (error) {
     throw error;
   }

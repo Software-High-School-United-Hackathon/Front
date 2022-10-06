@@ -2,6 +2,7 @@ export interface IGetResult {
   all_question_count: number;
   score: number;
   tendency: string;
+  tendency_type: number;
   tendency_explanation: string;
   wrong_sum: number;
 }

@@ -46,7 +46,7 @@ const AgeGroup = () => {
     <Wrapper>
       <InputBox>
         <img src={robot} alt="robot" />
-        <Description>"OOO"님의 나이대를 알려주세요.</Description>
+        <Description>"{`${state.name}`}"님의 나이대를 알려주세요.</Description>
         <BoxDiv>
           {AgeData.ageList.map((data, index) => (
             <BoxWrapper
@@ -124,8 +124,8 @@ const BoxWrapper = styled.button<{ state: boolean }>`
   transition: all 0.3s;
   color: ${({ state, theme }) =>
     state ? theme.color.Black : theme.color.Dark_Primary};
-  border: ${({ state, theme }) =>
-    state ? theme.color.black : theme.color.Dark_Primary};
+  border: 1px solid
+    ${({ state, theme }) => (state ? theme.color.BG : theme.color.Dark_Primary)};
 `;
 
 export default AgeGroup;

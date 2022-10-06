@@ -1,32 +1,52 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import share from "../../assets/imgs/share.svg";
+import { GetResult } from "../../utils/api";
+import { IGetResult } from "../../utils/models/response";
 import DefaultBtn from "../common/DefaultBtn";
 
 const Result = () => {
+  const [data, setData] = useState<IGetResult>({
+    all_question_count: 0,
+    score: 0,
+    tendency: "",
+    tendency_type: 0,
+    tendency_explanation: "",
+    wrong_sum: 0,
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("examId") || "";
+    GetResult(token).then((res) => {
+      setData(res);
+    });
+  }, []);
+
+  let ClearTest = data.all_question_count - data.wrong_sum;
+
+  console.log(ClearTest, data);
+
   return (
     <Wrapper>
       <ResultBox>
         <div className="img" />
         <ScoreDiv>
           <p id="name">최종점수</p>
-          <p id="score">10</p>
+          <p id="score">{`${data.score}`}</p>
         </ScoreDiv>
         <TestDiv>
           <p id="name">맞은문제 / 총문제</p>
-          <p id="test">1 / 10</p>
+          <p id="test">
+            {ClearTest} / {`${data.all_question_count}`}
+          </p>
         </TestDiv>
         <FaceDiv>
           <div className="head">
             <p id="name">투자성향</p>
-            <p id="face">위험중립형</p>
+            <p id="face">{`${data.tendency}`}</p>
           </div>
           <HR />
-          <p id="content">
-            투자원금의 손실위험은 최소화 하고, 이자소득이나 배당소득 수준의
-            안정적인 투자를 목표로 함. 다만, 수익을 위해 단기적인 손실을 수용할
-            수 있으며, 예ㆍ적금보다 높은 수익을 위해 자산 중 일부를 변동성 높은
-            상품에 투자할 의향이 있는 유형
-          </p>
+          <p id="content">{`${data.tendency_explanation}`}</p>
         </FaceDiv>
         <BtnDiv>
           <DefaultBtn defaultColor={true} value="틀린문제" />
