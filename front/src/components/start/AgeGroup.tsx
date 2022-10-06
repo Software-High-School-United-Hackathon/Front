@@ -4,7 +4,8 @@ import robot from "../../assets/imgs/robot.svg";
 import DefaultBtn from "../common/DefaultBtn";
 import { infoState } from "../../store/atom";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { PostTest } from "../../utils/api/index";
 
 const AgeData = {
   ageList: [
@@ -22,10 +23,23 @@ const AgeData = {
 
 const AgeGroup = () => {
   const [state, setState] = useRecoilState(infoState);
-  const [cur, setCur] = useState<number | null>(null);
+  const [cur, setCur] = useState<number>();
+  const navigate = useNavigate();
+
   const onClickAge = (num: number) => {
     setState({ ...state, age_disabled: false });
     setCur(num);
+  };
+
+  const onSubmit = () => {
+    console.log(cur, state.name);
+    PostTest({ age: state.age, name: state.name })
+      .then((res) => {
+        localStorage.setItem("access_token", res.data);
+        console.log(localStorage);
+        navigate("/test");
+      })
+      .catch();
   };
 
   return (
@@ -36,6 +50,7 @@ const AgeGroup = () => {
         <BoxDiv>
           {AgeData.ageList.map((data, index) => (
             <BoxWrapper
+              key={data.value}
               state={!((index + 1) * 10 === cur)}
               onClick={() => onClickAge((index + 1) * 10)}
             >
@@ -44,13 +59,12 @@ const AgeGroup = () => {
           ))}
         </BoxDiv>
         <div className="btnDiv">
-          <Link to="/test">
-            <DefaultBtn
-              disabled={state.age_disabled}
-              defaultColor={true}
-              value="시작하기"
-            />
-          </Link>
+          <DefaultBtn
+            onClick={onSubmit}
+            disabled={state.age_disabled}
+            defaultColor={true}
+            value="시작하기"
+          />
         </div>
       </InputBox>
     </Wrapper>
