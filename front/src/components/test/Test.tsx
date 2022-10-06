@@ -4,35 +4,56 @@ import robot from "../../assets/imgs/robot.svg";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import DefaultBtn from "../common/DefaultBtn";
-import example from "../../assets/imgs/example.png";
-import example2 from "../../assets/imgs/example2.png";
-import { GetQuestion } from "../../utils/api";
-
-const marks = [
-  {
-    value: 0,
-    tooltip: -10,
-  },
-  {
-    value: 5,
-    tooltip: -5,
-  },
-  {
-    value: 10,
-    tooltip: 0,
-  },
-  {
-    value: 15,
-    tooltip: 5,
-  },
-  {
-    value: 20,
-    tooltip: 10,
-  },
-];
+import { GetQuestion, PostAnswer } from "../../utils/api";
+import { IGetTest } from "../../utils/models/response";
 
 const Test = () => {
-  const [isMore, setIsMore] = useState<boolean>(true);
+  const [data, setData] = useState<IGetTest>({
+    finance_info: {
+      dpr: 0,
+      endDate: "",
+      hipr: 0,
+      id: 0,
+      lopr: 0,
+      mrktTotAmt: 0,
+      trPrc: 0,
+      trqu: 0,
+      vs: 0,
+    },
+    id: 0,
+    image: "",
+    news: {
+      article: "",
+      id: 0,
+      image: "",
+      title: "",
+    },
+    stock: "",
+  });
+  const [nextTest, setNextTest] = useState<number>(0);
+
+  const marks = [
+    {
+      value: 0,
+      tooltip: -10,
+    },
+    {
+      value: 5,
+      tooltip: -5,
+    },
+    {
+      value: 10,
+      tooltip: 0,
+    },
+    {
+      value: 15,
+      tooltip: 5,
+    },
+    {
+      value: 20,
+      tooltip: 10,
+    },
+  ];
 
   function valuetext(value: number) {
     return `${value}`;
@@ -43,12 +64,21 @@ const Test = () => {
     return target?.tooltip;
   }
 
+  const NextPage = () => {
+    const target = marks.find((mark) => mark.value === mark.value);
+    if (target == null) return;
+    setNextTest(nextTest + 1);
+    PostAnswer(data.id, target.tooltip);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("examId") || "";
     GetQuestion(token).then((res) => {
-      console.log(res, "1");
+      setData(res);
     });
-  }, []);
+  }, [nextTest]);
+
+  console.log(data);
 
   return (
     <Wrapper>
@@ -56,30 +86,61 @@ const Test = () => {
         <ProblemTitle>
           <img src={robot} alt="robot" />
           <div className="tipDiv">
-            <p id="date">기준날짜: 2022년 10월 6일</p>
-            <p id="tip">TIP. 사과는 맛있어요</p>
+            <p id="date">기준날짜: {`${data.finance_info.endDate}`}</p>
+            <p id="tip">TIP. {`${data.news.title}`}</p>
           </div>
         </ProblemTitle>
         <ProblemBody>
           <Problem1>
             <div className="chart">
-              <img src={example} alt="chart" />
+              <img src={data.image} alt="chart" />
             </div>
           </Problem1>
           <Problem2>
             <div className="news">
-              <img src={example2} alt="img" />
+              <img src={data.news.image} alt="img" />
               <NewsTextDiv>
-                <p id="title">
-                  엄청난 충주사과 풍년으로 사과값 떡락위기 전국사과 농가
-                  후들후들...
-                </p>
-                <p id="content"></p>
+                <p id="title">{`${data.news.title}`}</p>
+                <p id="content">{`${data.news.article}`}</p>
               </NewsTextDiv>
             </div>
             <TableDiv>
-              <div className="table"></div>
-              <div className="table"></div>
+              <div className="table">
+                <TableTextDiv>
+                  <p id="name">고가</p>
+                  <p id="content">{`${data.finance_info.hipr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">저가</p>
+                  <p id="content">{`${data.finance_info.lopr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">종가</p>
+                  <p id="content">{`${data.finance_info.dpr}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">시장구분</p>
+                  <p id="content">{`${data.stock}`}</p>
+                </TableTextDiv>
+              </div>
+              <div className="table">
+                <TableTextDiv>
+                  <p id="name">시가총액</p>
+                  <p id="content">{`${data.finance_info.mrktTotAmt}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">거래대금</p>
+                  <p id="content">{`${data.finance_info.trPrc}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">거래량</p>
+                  <p id="content">{`${data.finance_info.trqu}`}</p>
+                </TableTextDiv>
+                <TableTextDiv>
+                  <p id="name">전일대비등락</p>
+                  <p id="content">{`${data.finance_info.vs}`}</p>
+                </TableTextDiv>
+              </div>
             </TableDiv>
           </Problem2>
         </ProblemBody>
@@ -101,7 +162,7 @@ const Test = () => {
           <p id="buy">매수한다</p>
         </SliderDiv>
         <BtnDiv>
-          <DefaultBtn defaultColor={true} value="다음" />
+          <DefaultBtn onClick={NextPage} defaultColor={true} value="다음" />
         </BtnDiv>
       </Problem>
     </Wrapper>
@@ -177,7 +238,7 @@ const Problem1 = styled.div`
 const Problem2 = styled.div`
   .news {
     width: 520px;
-    height: 170px;
+    height: 240px;
     padding: 16px;
     background-color: ${({ theme }) => theme.color.BG};
     gap: 8px;
@@ -209,8 +270,9 @@ const TableDiv = styled.div`
   gap: 8px;
   margin-top: 8px;
   .table {
-    width: 272px;
-    height: 192px;
+    padding: 10px;
+    width: 252px;
+    height: 100px;
     background-color: ${({ theme }) => theme.color.BG};
     border-radius: 16px;
   }
@@ -242,6 +304,20 @@ const BtnDiv = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+const TableTextDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  #name {
+    font-weight: 500;
+    font-size: 15px;
+  }
+  #content {
+    font-weight: 400;
+    font-size: 12px;
+  }
 `;
 
 export default Test;
