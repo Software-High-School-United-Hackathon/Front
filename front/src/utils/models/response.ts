@@ -29,3 +29,26 @@ export interface IGetTest {
   };
   stock: string;
 }
+
+export interface IGetFailTest {
+  finance_info: {
+    dpr: number;
+    endDate: string;
+    hipr: number;
+    id: number;
+    lopr: number;
+    mrktTotAmt: number;
+    trPrc: number;
+    trqu: number;
+    vs: number;
+  };
+  id: number;
+  image: string;
+  news: {
+    article: string;
+    id: number;
+    image: string;
+    title: string;
+  };
+  stock: string;
+}

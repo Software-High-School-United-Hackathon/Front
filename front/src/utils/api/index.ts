@@ -1,6 +1,6 @@
 import instance from "../axios";
 import { ICreateTest, IPostAnswer } from "../models/request";
-import { IGetResult, IGetTest } from "../models/response";
+import { IGetFailTest, IGetResult, IGetTest } from "../models/response";
 
 export const PostTest = async (body: ICreateTest) => {
   try {
@@ -29,6 +29,16 @@ export const GetQuestion = async (examId: string): Promise<IGetTest> => {
 export const PostAnswer = async (body: IPostAnswer) => {
   try {
     return await instance.post(`/question`, body);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetFailQuestion = async (
+  examId: string
+): Promise<IGetFailTest> => {
+  try {
+    return await instance.get(`/question/wrong?id=${examId}`);
   } catch (error) {
     throw error;
   }

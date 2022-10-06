@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import wrong from "../../assets/imgs/wrong.svg";
 import Box from "@mui/material/Box";
@@ -7,6 +7,8 @@ import { makeStyles } from "@mui/styles";
 import DefaultBtn from "../common/DefaultBtn";
 import example from "../../assets/imgs/example.png";
 import example2 from "../../assets/imgs/example2.png";
+import { GetFailQuestion } from "../../utils/api";
+import { IGetFailTest } from "../../utils/models/response";
 
 const marks = [
   {
@@ -38,9 +40,37 @@ const useStyles = makeStyles({
 });
 
 const Wrong = () => {
-  const [isMore, setIsMore] = useState<boolean>(true);
+  const [data, setData] = useState<IGetFailTest>({
+    finance_info: {
+      dpr: 0,
+      endDate: "",
+      hipr: 0,
+      id: 0,
+      lopr: 0,
+      mrktTotAmt: 0,
+      trPrc: 0,
+      trqu: 0,
+      vs: 0,
+    },
+    id: 0,
+    image: "",
+    news: {
+      article: "",
+      id: 0,
+      image: "",
+      title: "",
+    },
+    stock: "",
+  });
 
   const test = useStyles();
+
+  useEffect(() => {
+    const token = localStorage.getItem("examId") || "";
+    GetFailQuestion(token).then((res) => {
+      setData(res);
+    });
+  }, []);
 
   function valuetext(value: number) {
     return `${value}`;
