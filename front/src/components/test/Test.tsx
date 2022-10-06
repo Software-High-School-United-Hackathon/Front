@@ -6,6 +6,7 @@ import Slider from "@mui/material/Slider";
 import DefaultBtn from "../common/DefaultBtn";
 import { GetQuestion, PostAnswer } from "../../utils/api";
 import { IGetTest } from "../../utils/models/response";
+import { useNavigate } from "react-router-dom";
 
 const Test = () => {
   const [data, setData] = useState<IGetTest>({
@@ -55,6 +56,8 @@ const Test = () => {
     },
   ];
 
+  const Navigate = useNavigate();
+
   function valuetext(value: number) {
     return `${value}`;
   }
@@ -68,7 +71,11 @@ const Test = () => {
     const target = marks.find((mark) => mark.value === mark.value);
     if (target == null) return;
     setNextTest(nextTest + 1);
-    PostAnswer(data.id, target.tooltip);
+    PostAnswer({ id: data.id, answer: target.tooltip });
+    console.log(nextTest);
+    if (nextTest == 9) {
+      Navigate("/result");
+    }
   };
 
   useEffect(() => {
@@ -77,8 +84,6 @@ const Test = () => {
       setData(res);
     });
   }, [nextTest]);
-
-  console.log(data);
 
   return (
     <Wrapper>

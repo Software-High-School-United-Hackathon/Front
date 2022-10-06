@@ -1,5 +1,5 @@
 import instance from "../axios";
-import { ICreateTest } from "../models/request";
+import { ICreateTest, IPostAnswer } from "../models/request";
 import { IGetResult, IGetTest } from "../models/response";
 
 export const PostTest = async (body: ICreateTest) => {
@@ -26,9 +26,9 @@ export const GetQuestion = async (examId: string): Promise<IGetTest> => {
   }
 };
 
-export const PostAnswer = async (testId: number, body: number) => {
+export const PostAnswer = async (body: IPostAnswer) => {
   try {
-    return await instance.post(`/question/${testId}`, body);
+    return await instance.post(`/question`, body);
   } catch (error) {
     throw error;
   }
